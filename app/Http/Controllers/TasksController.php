@@ -48,8 +48,15 @@ class TasksController extends Controller
     //  新規登録処理
     public function store(Request $request)
     {
+        //バリデーション
+        $request->validate([
+            'content' => 'required',
+            'status' => 'required|max:10',
+        ]);
+        
         $task = new Task;
         $task->content = $request->content;
+        $task->status = $request->status;
         $task->save();
         
         //保存後にトップページへリダイレクト
@@ -99,6 +106,12 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //バリデーション
+        $request->validate([
+            'content' => 'required',
+            'status' => 'required|max:10',
+        ]);
+        
         $task = Task::findOrFail($id);
         
         // タスク更新するために、POSTデータを代入して更新
