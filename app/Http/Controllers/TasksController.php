@@ -45,6 +45,7 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    //  新規登録処理
     public function store(Request $request)
     {
         $task = new Task;
