@@ -116,6 +116,7 @@ class TasksController extends Controller
         
         // タスク更新するために、POSTデータを代入して更新
         $task->content = $request->content;
+        $task->status = $request->status;
         $task->save();
         
         return redirect('/');
