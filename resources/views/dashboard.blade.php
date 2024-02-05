@@ -5,6 +5,7 @@
         <div class="hero-content text-center my-10">
             <div class="max-w-md mb-10">
                 <h2>Welcome to the Tasklist</h2>
+@include('tasks.index')
             </div>
         </div>
     </div>

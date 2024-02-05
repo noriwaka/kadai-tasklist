@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth; // この行を追加
 
 class TasksController extends Controller
 {
@@ -17,9 +18,10 @@ class TasksController extends Controller
     {
         // タスクリストを取得
         $tasks = Task::all();
-        
+        // ログインユーザーのタスクのみを取得
+        // $tasks = Task::where('user_id', Auth::id())->get();
         //タスクリストをビューで表示
-        return view('tasks.index', [
+        return view('dashboard', [
             'tasks' => $tasks,
             ]);
     }
@@ -57,6 +59,7 @@ class TasksController extends Controller
         $task = new Task;
         $task->content = $request->content;
         $task->status = $request->status;
+        $task->user_id = Auth::id(); // 現在のユーザーIDを設定
         $task->save();
         
         //保存後にトップページへリダイレクト

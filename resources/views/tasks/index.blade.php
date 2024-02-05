@@ -25,8 +25,6 @@
             </tbody>
         </table>
     @endif
-
-
     {{-- 新規タスク作成ページへのリンク --}}
     <a class="btn btn-primary" href="{{ route('tasks.create') }}">新しいタスクを作成する</a>
 {{-- @endsection --}}
