@@ -76,13 +76,19 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        // id(引数)の値で検索して取得
-        $task = Task::findOrFail($id);
-        
-        // ビューで表示
+         
+         $task = Task::findOrFail($id);
+
+    // ログインしているユーザーのIDとタスクのuser_idを比較
+    if (Auth::id() != $task->user_id) {
+        // IDが一致しない場合はトップページにリダイレクト
+        return redirect('/');
+    } else {
+        // IDが一致する場合はタスク詳細ビューを表示
         return view('tasks.show', [
             'task' => $task,
-            ]);
+        ]);
+        }
     }
 
     /**
