@@ -16,14 +16,16 @@ class TasksController extends Controller
      */
     public function index()
     {
-        // タスクリストを取得
-        $tasks = Task::all();
-        // ログインユーザーのタスクのみを取得
-        // $tasks = Task::where('user_id', Auth::id())->get();
-        //タスクリストをビューで表示
-        return view('dashboard', [
+        if(Auth::check()) {
+            $tasks = Task::where('user_id', Auth::user()->id)->get();
+            return view('dashboard', [
             'tasks' => $tasks,
             ]);
+        } else {
+            return view('dashboard');
+        }
+        // ログインユーザーのタスクのみを取得
+        // $tasks = Task::where('user_id', Auth::id())->get();
     }
 
     /**
