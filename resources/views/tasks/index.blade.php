@@ -1,6 +1,6 @@
-{{-- @extends('layouts.app')
+{{-- @extends('layouts.app') --}}
 
-@section('content') --}}
+@section('content') 
  @if (isset($tasks))
     <div class="prose ml-4">
         <h2>タスク 一覧</h2>
@@ -29,4 +29,4 @@
     @if (Auth::check())
      <a class="btn btn-primary" href="{{ route('tasks.create') }}">新しいタスクを作成する</a>
     @endif
-{{-- @endsection --}}
+ @endsection 

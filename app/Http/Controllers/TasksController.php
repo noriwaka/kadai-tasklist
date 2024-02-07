@@ -16,6 +16,9 @@ class TasksController extends Controller
      */
     public function index()
     {
+        // Auth::user()ログイン中のユーザー取得
+        // ->id->get() 上記のidを取得
+        //もしログインしていたら、ログインしているユーザーのidと同じのuser_idカラム（タスクモデル）を取得
         if(Auth::check()) {
             $tasks = Task::where('user_id', Auth::user()->id)->get();
             return view('dashboard', [
@@ -79,16 +82,16 @@ class TasksController extends Controller
          
          $task = Task::findOrFail($id);
 
-    // ログインしているユーザーのIDとタスクのuser_idを比較
-    if (Auth::id() != $task->user_id) {
-        // IDが一致しない場合はトップページにリダイレクト
-        return redirect('/');
-    } else {
-        // IDが一致する場合はタスク詳細ビューを表示
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
-        }
+        // ログインしているユーザーのIDとタスクのuser_idを比較
+        if (Auth::id() != $task->user_id) {
+            // IDが一致しない場合はトップページにリダイレクト
+            return redirect('/');
+        } else {
+            // IDが一致する場合はタスク詳細ビューを表示
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+            }
     }
 
     /**
@@ -102,10 +105,15 @@ class TasksController extends Controller
         // id(引数)の値で検索して取得
         $task = Task::findOrFail($id);
         
+        if (Auth::id() != $task->user_id) {
+            return redirect('/');
+        } else {
+        
         // ビューで表示
-        return view('tasks.edit', [
-            'task' => $task,
+            return view('tasks.edit', [
+                'task' => $task,
             ]);
+        }
     }
 
     /**
@@ -117,6 +125,7 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         //バリデーション
         $request->validate([
             'content' => 'required',
@@ -125,12 +134,17 @@ class TasksController extends Controller
         
         $task = Task::findOrFail($id);
         
-        // タスク更新するために、POSTデータを代入して更新
-        $task->content = $request->content;
-        $task->status = $request->status;
-        $task->save();
-        
-        return redirect('/');
+        if (Auth::id() != $task->user_id) {
+            return redirect('/');
+        } else {
+            
+            // タスク更新するために、POSTデータを代入して更新
+            $task->content = $request->content;
+            $task->status = $request->status;
+            $task->save();
+            
+            return redirect('/');
+        }
     }
 
     /**
@@ -143,8 +157,13 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
         
-        $task->delete();
+        if (Auth::id() != $task->user_id) {
+            return redirect('/');
+        } else {
         
-        return redirect('/');
+            $task->delete();
+            
+            return redirect('/');
+        }
     }
 }
